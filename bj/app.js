@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 mongoose.connect(process.env.MONGO_DB);
 var db = mongoose.connection;
