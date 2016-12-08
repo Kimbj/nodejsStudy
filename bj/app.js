@@ -49,7 +49,7 @@ app.get('/posts/new',function(req,res){
 app.post('/posts', function(req,res){
   Post.create(req.body.post, function(err,post){
     if(err) return res.json({success:false, message:err});
-    res.rediect('/posts');
+    res.redirect('/posts');
   });
 }); // create
 
@@ -60,12 +60,19 @@ app.get('/posts/:id',function(req,res){
   });
 });
 
+app.get('/posts/:id/edit',function(req,res){
+  Post.findById(req.params.id,function(err,post){
+    if(err) return res.json({success:false, message:err});
+    res.render("posts/edit", {data:post});
+  });
+});
 
-app.put('/posts/:id',function(req,res){
+
+app.put('/posts/:id/',function(req,res){
   req.body.post.updateAt=Date.now();
   Post.findByIdAndUpdate(req.params.id, req.body.post, function(err,post){
     if(err) return res.json({success:false, message:err});
-    res.json({success:true, data:post._id+" updated"});
+    res.redirect('/posts/' + req.params.id);
   });
 });
 
